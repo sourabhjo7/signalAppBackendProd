@@ -74,7 +74,7 @@ cron.schedule(" * * * * *", async () => {
             signalId: signal._id,
             status: "win",
             targetReached: target,
-            stopLossReached: profitP,
+            ProfitPercent:profitP,
           });
           data = {
             title: "Target",

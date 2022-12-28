@@ -12,3 +12,16 @@ exports.getHistory = async (req, res) => {
       console.error(e);
     }
   }
+  exports.getHistoryBySignalID=async(req,res)=>{
+       
+    try {
+      const {id} = req.params;
+      console.log(id);
+     const indiHistory= await History.find({signalId:id});
+  console.log(indiHistory);
+      res.status(201).json({success: true,indiHistory});
+  
+    } catch (e) {
+        console.error();
+    }
+    }
