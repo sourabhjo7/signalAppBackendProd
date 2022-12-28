@@ -59,6 +59,7 @@ cron.schedule(" * * * * *", async () => {
       data = {
         title: "StopLoss",
         symbol: signal.Symbol,
+        signalId:signal._id,
         changePercentage: lossP,
         target: signal.StopLoss,
       };
@@ -79,6 +80,7 @@ cron.schedule(" * * * * *", async () => {
           data = {
             title: "Target",
             symbol: signal.Symbol,
+            signalId:signal._id,
             changePercentage: profitP,
             target: target,
           };
