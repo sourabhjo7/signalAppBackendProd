@@ -5,7 +5,7 @@ const http = require("http");
 const server = http.createServer(app);
 const axios = require("axios");
 const cors = require("cors");
-// const { Server } = require("socket.io"); //framework to use web sockets
+const { Server } = require("socket.io"); //framework to use web sockets
 const Signal = require("./model/signal");
 const History = require("./model/history");
 let globalSignals;
@@ -14,13 +14,13 @@ async function first() {
 }
 first();
 
-//creating a new socket server
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"],
-//   },
-// });
+// creating a new socket server
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 var cron = require("node-cron");
 
 // every hour update the global signal
@@ -90,7 +90,7 @@ cron.schedule(" * * * * *", async () => {
     }
     if (Object.keys(data).length != 0) {
       console.log("socket called ");
-      // io.sockets.emit("broadcast", data);
+      io.sockets.emit("broadcast", data);
     }
   });
   // end of iteration
@@ -98,10 +98,10 @@ cron.schedule(" * * * * *", async () => {
 
 
 
-// io.on("connection", (socket) => {
+io.on("connection", (socket) => {
       
-//   console.log(socket.id, " is connected");
-// });
+  console.log(socket.id, " is connected");
+});
 
 app.post("/custom-notification", (req, res) => {
   console.log("notification received ");
@@ -113,7 +113,7 @@ app.post("/custom-notification", (req, res) => {
     description:des
   };
   console.log("socket called ");
-  // io.sockets.emit("broadcast", data);
+  io.sockets.emit("broadcast", data);
 res.status(200).json({success:"true"})
 });
 

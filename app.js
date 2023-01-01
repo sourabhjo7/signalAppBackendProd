@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"], // change origin based on domain main of the application
+    origin: "*",// origin: ["http://localhost:3000"], // change origin based on domain main of the application
     optionsSuccessStatus: 200,
     credentials: true,
   })
