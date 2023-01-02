@@ -23,12 +23,6 @@ const io = new Server(server, {
 });
 var cron = require("node-cron");
 
-// every hour update the global signal
-
-cron.schedule("0 * * * *", async () => {
-  globalSignals = await Signal.find();
-});
-
 // every minute job
 cron.schedule(" * * * * *", async () => {
     await first();
@@ -37,14 +31,20 @@ cron.schedule(" * * * * *", async () => {
   signals.forEach(async (signal) => {
     // if not present then fetch marketprice so to keep minimum calls to binance in one cron job
     if (!(signal.Symbol in PriceObj)) {
+try{
       const d = await axios.get(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${signal.Symbol}`
+        `https://api.binance.us/api/v3/ticker/price?symbol=${signal.Symbol}`
       );
       PriceObj[signal.Symbol] = d.data.price; // in dollars
       console.log(PriceObj);
-    }
+   }
+catch(e){
+console.log(e);
+}
+ }
 
     let data = {};
+console.log("cron after call by axios")
     if (Math.abs(signal.StopLoss - PriceObj[signal.Symbol]) < 1) {
       console.log("loss");
       const lossP =
