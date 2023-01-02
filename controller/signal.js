@@ -15,7 +15,7 @@ exports.addNewSignal = async (req, res) => {
     } = req.body;
 
     const d = await axios.get(
-      `https://api.binance.com/api/v3/ticker/price?symbol=${Symbol}`
+      `https://api.binance.us/api/v3/ticker/price?symbol=${Symbol}`
     );
     const MarketPrice = d.data.price; // in dollars
 
